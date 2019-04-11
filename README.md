@@ -11,5 +11,5 @@ To install NMEAFilter, you need to have ArcPad installed. This extension is comp
  1. Download NMEAFilter.dll from the Releases folder
  2. Install it to your ArcPad extensions folder (C:\Program Files (x86)\ArcGIS\ArcPad10.2\Extensions)
  3. Set NMEAFILTERS environment variable to customize ([see NMEAFILTERS wiki](https://github.com/stephenquan/NMEAFilter/wiki/Environment-Variable:-NMEAFILTERS))
- 4. Set NMEAFILTERS_DEBUG to generate troubleshooting messages (see NMEAFILTERS_DEBUG wiki)
+ 4. Set NMEAFILTERS_DEBUG to generate troubleshooting messages ([see NMEAFILTERS_DEBUG wiki](https://github.com/stephenquan/NMEAFilter/wiki/Environment-Variable:-NMEAFILTERS_DEBUG))
  
