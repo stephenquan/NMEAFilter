@@ -1,13 +1,10 @@
-=================
-NMEAFilter v1.0.0
-=================
+# NMEAFilter v1.0.0
 
 NMEAFilter is an ArcPad extension that whitelists (and blacklsit) NMEA sentences.
 
 Without this extension, ArcPad will attempt to process all NMEA messages that it receives from the Serial Port. With this extension, one can selectively cherry pick specific message that will be used by ArcPad.
 
-Installing NMEAFilter
-=====================
+## Installing NMEAFilter
 
 To install NMEAFilter, you need to have ArcPad installed. This extension is compatible with almost all versions of ArcPad since ArcPad 6.0.3.
 
