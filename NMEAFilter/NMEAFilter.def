@@ -1,0 +1,10 @@
+; NMEAFilter.def
+LIBRARY "NMEAFilter"
+;DESCRIPTION "NMEA Filter for ArcPad"
+
+EXPORTS
+        APExInitialize
+        APExTerminate
+        APExGetProperty
+        APExPreTranslateNMEA
+
