@@ -2,7 +2,7 @@
 
 NMEAFilter is an ArcPad extension that whitelists (and blacklist) NMEA sentences.
 
-Without this extension, ArcPad will attempt to process all NMEA messages that it receives from the Serial Port. With this extension, you can cherry pick specific messages that will be used by ArcPad.
+Without this extension, ArcPad will attempt to process all NMEA messages that it receives from the Serial Port. With this extension, you can cherry pick specific messages that will be used by ArcPad. By default this extension suppresses messages starting with $BD.
 
 ## Installing NMEAFilter
 
