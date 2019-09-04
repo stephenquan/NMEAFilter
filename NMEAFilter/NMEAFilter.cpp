@@ -43,8 +43,13 @@ extern "C" APEXDECL LRESULT APExTerminate(void)
 extern "C" APEXDECL LRESULT APExPreTranslateNMEA(LPSTR pSentence, int nFields, LPCSTR pFields[], INSTRUMENT *pInstrument)
 {
     char Filters[1024] = "!$BD;$";
+#ifdef UNDER_CE
+    char* FiltersEnv = NULL;
+    char* DebugEnv = NULL;
+#else
     char* FiltersEnv = getenv("NMEAFILTERS");
     char* DebugEnv = getenv("NMEAFILTERS_DEBUG");
+#endif
     int debugMode = (DebugEnv != NULL && strcmp(DebugEnv, "YES") == 0) ? 1 : 0;
 
     static DWORD lastShownAccept = 0;
