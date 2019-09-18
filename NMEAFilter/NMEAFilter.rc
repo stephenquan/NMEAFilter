@@ -65,8 +65,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_AUS
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,2,0
- PRODUCTVERSION 1,0,2,0
+ FILEVERSION 1,0,3,0
+ PRODUCTVERSION 1,0,3,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -84,13 +84,13 @@ BEGIN
             VALUE "Comments", "NMEA Filter"
             VALUE "CompanyName", "ESRI"
             VALUE "FileDescription", "ArcPad NMEA Filter"
-            VALUE "FileVersion", "1, 0, 2, 0"
+            VALUE "FileVersion", "1, 0, 3, 0"
             VALUE "InternalName", "NMEAFilter"
             VALUE "LegalCopyright", "Copyright © 2019 ESRI, Inc. and its licensor(s). All rights reserved."
             VALUE "LegalTrademarks", "ESRI® ArcPad® MapPad®"
             VALUE "OriginalFilename", "NMEAFilter.dll"
             VALUE "ProductName", "NMEAFilter"
-            VALUE "ProductVersion", "1, 0, 2, 0"
+            VALUE "ProductVersion", "1, 0, 3, 0"
         END
     END
     BLOCK "VarFileInfo"

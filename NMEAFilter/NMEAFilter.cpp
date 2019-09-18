@@ -20,6 +20,12 @@ const DWORD APExCodeName  = *(DWORD *) "@~NM";
 //
 //----------------------------------------------------------------------
 
+#define INS_DATA_SKIP 0x8000000
+
+//----------------------------------------------------------------------
+//
+//----------------------------------------------------------------------
+
 extern "C" APEXDECL LRESULT APExInitialize(HWND hWnd)
 {
     g_hWnd = hWnd;
@@ -43,8 +49,8 @@ extern "C" APEXDECL LRESULT APExTerminate(void)
 class CVariant : public VARIANT
 {
 public:
-	CVariant() { VariantInit(this); }
-	~CVariant() { VariantClear(this); }
+    CVariant() { VariantInit(this); }
+    ~CVariant() { VariantClear(this); }
 };
 
 //----------------------------------------------------------------------
@@ -54,7 +60,9 @@ public:
 
 extern "C" APEXDECL LRESULT APExPreTranslateNMEA(LPSTR pSentence, int nFields, LPCSTR pFields[], INSTRUMENT *pInstrument)
 {
-	char Filters[1024] = { };
+    pInstrument->DataMask &= ~INS_DATA_SKIP;
+
+    char Filters[1024] = { };
 #ifdef UNDER_CE
     char* FiltersEnv = NULL;
     char* DebugEnv = NULL;
@@ -62,8 +70,8 @@ extern "C" APEXDECL LRESULT APExPreTranslateNMEA(LPSTR pSentence, int nFields, L
     char* FiltersEnv = getenv("NMEAFILTERS");
     char* DebugEnv = getenv("NMEAFILTERS_DEBUG");
 #endif
-	CVariant FiltersVar;
-	g_pfnEvaluate(L"Application.userProperties(\"NMEAFILTERS\")", &FiltersVar, NULL);
+    CVariant FiltersVar;
+    g_pfnEvaluate(L"Application.userProperties(\"NMEAFILTERS\")", &FiltersVar, NULL);
 
     int debugMode = (DebugEnv != NULL && strcmp(DebugEnv, "YES") == 0) ? 1 : 0;
 
@@ -72,22 +80,24 @@ extern "C" APEXDECL LRESULT APExPreTranslateNMEA(LPSTR pSentence, int nFields, L
 
     char* pFilter = Filters;
 
-	if (FiltersEnv != NULL && *FiltersEnv  != '\0')
-	{
+    if (FiltersEnv != NULL && *FiltersEnv  != '\0')
+    {
 #ifdef UNDER_CE
-		strcpy(Filters, FiltersEnv);
+        strcpy(Filters, FiltersEnv);
 #else
-		strcpy_s(Filters, FiltersEnv);
+        strcpy_s(Filters, FiltersEnv);
 #endif
-	}
+    }
 
-	VARIANT* pFiltersVar = &FiltersVar;
-	if (pFiltersVar->vt == VT_BSTR && V_BSTR(pFiltersVar) != '\0')
-	{
-		::WideCharToMultiByte(CP_UTF8, 0, V_BSTR(pFiltersVar), SysStringLen(V_BSTR(pFiltersVar)) + 1, Filters, 1023, NULL, 0);
-	}
+    VARIANT* pFiltersVar = &FiltersVar;
+    if (pFiltersVar->vt == VT_BSTR && V_BSTR(pFiltersVar) != '\0')
+    {
+        ::WideCharToMultiByte(CP_UTF8, 0, V_BSTR(pFiltersVar), SysStringLen(V_BSTR(pFiltersVar)) + 1, Filters, 1023, NULL, 0);
+    }
 
-	while (pFilter && *pFilter != '0')
+    bool filtered = false;
+
+    while (pFilter && *pFilter != '0')
     {
         char* pFilterEnd = strchr(pFilter, ';');
         if (*pFilter == '!')
@@ -104,7 +114,8 @@ extern "C" APEXDECL LRESULT APExPreTranslateNMEA(LPSTR pSentence, int nFields, L
                         lastShownReject = GetTickCount();
                     }
                 }
-                return APEX_TRUE;
+                filtered = true;
+                break;
             }
         }
         else
@@ -120,11 +131,17 @@ extern "C" APEXDECL LRESULT APExPreTranslateNMEA(LPSTR pSentence, int nFields, L
                         lastShownAccept = GetTickCount();
                     }
                 }
-				VariantClear(&FiltersVar);
-                return APEX_FALSE;
+                filtered = false;
+                break;
             }
         }
         pFilter = pFilterEnd ? pFilterEnd + 1 : NULL;
+    }
+
+    if (filtered)
+    {
+        pInstrument->DataMask |= INS_DATA_SKIP;
+        return APEX_TRUE;
     }
 
     return APEX_FALSE;
